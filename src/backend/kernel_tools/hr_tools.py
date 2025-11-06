@@ -225,17 +225,17 @@ class HrTools:
         )
         return information
 
-    # Additional HR tools
-    @staticmethod
-    @kernel_function(description="Initiate a background check for a new employee.")
-    async def initiate_background_check(employee_name: str) -> str:
-        return (
-            f"##### Background Check Initiated\n"
-            f"**Employee Name:** {employee_name}\n\n"
-            f"A background check has been initiated for {employee_name}. "
-            f"You will be notified once the check is complete.\n"
-            f"{HrTools.formatting_instructions}"
-        )
+    # # Additional HR tools
+    # @staticmethod
+    # @kernel_function(description="Initiate a background check for a new employee.")
+    # async def initiate_background_check(employee_name: str) -> str:
+    #     return (
+    #         f"##### Background Check Initiated\n"
+    #         f"**Employee Name:** {employee_name}\n\n"
+    #         f"A background check has been initiated for {employee_name}. "
+    #         f"You will be notified once the check is complete.\n"
+    #         f"{HrTools.formatting_instructions}"
+    #     )
 
     @staticmethod
     @kernel_function(description="Organize a team-building activity.")

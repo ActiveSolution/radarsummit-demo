@@ -10,6 +10,7 @@ from event_utils import track_event_if_configured
 from kernel_agents.agent_base import BaseAgent
 from kernel_tools.generic_tools import GenericTools
 from kernel_tools.hr_tools import HrTools
+from kernel_tools.riskassessment_tools import RiskAssessmentTools
 from kernel_tools.marketing_tools import MarketingTools
 from kernel_tools.procurement_tools import ProcurementTools
 from kernel_tools.product_tools import ProductTools
@@ -83,6 +84,7 @@ class PlannerAgent(BaseAgent):
             AgentType.PROCUREMENT.value,
             AgentType.TECH_SUPPORT.value,
             AgentType.GENERIC.value,
+            AgentType.RISKASSESSMENT.value,
         ]
         self._agent_tools_list = {
             AgentType.HR: HrTools.generate_tools_json_doc(),
@@ -91,6 +93,7 @@ class PlannerAgent(BaseAgent):
             AgentType.PROCUREMENT: ProcurementTools.generate_tools_json_doc(),
             AgentType.TECH_SUPPORT: TechSupportTools.generate_tools_json_doc(),
             AgentType.GENERIC: GenericTools.generate_tools_json_doc(),
+            AgentType.RISKASSESSMENT: RiskAssessmentTools.generate_tools_json_doc(),
         }
 
         self._agent_instances = agent_instances or {}
@@ -530,7 +533,7 @@ class PlannerAgent(BaseAgent):
                 tools_list.append(tools)
 
         tools_str = str(tools_list)
-
+        
         # Return a dictionary with template variables
         return {
             "objective": objective,

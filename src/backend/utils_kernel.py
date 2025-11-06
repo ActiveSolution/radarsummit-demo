@@ -18,6 +18,7 @@ from context.cosmos_memory_kernel import CosmosMemoryContext
 from kernel_agents.agent_factory import AgentFactory
 from kernel_agents.group_chat_manager import GroupChatManager
 from kernel_agents.hr_agent import HrAgent
+from kernel_agents.riskassessment_agent import RiskAssessmentAgent
 from kernel_agents.human_agent import HumanAgent
 from kernel_agents.marketing_agent import MarketingAgent
 from kernel_agents.planner_agent import PlannerAgent
@@ -97,6 +98,7 @@ async def get_agents(session_id: str, user_id: str) -> Dict[str, Any]:
             AgentType.HUMAN: HumanAgent.__name__,
             AgentType.PLANNER: PlannerAgent.__name__,
             AgentType.GROUP_CHAT_MANAGER: GroupChatManager.__name__,
+            AgentType.RISKASSESSMENT: RiskAssessmentAgent.__name__,
         }
 
         # Convert to the agent name dictionary format used by the rest of the app
