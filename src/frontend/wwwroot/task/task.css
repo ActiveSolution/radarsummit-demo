@@ -110,6 +110,16 @@
   width: calc(100% + 1.4rem - 5px);
 }
 
+.menu-list a.menu-stage.agent-border-risk {
+  border-left: 3px solid #ff3860;
+  background-color: #fff0f0;
+}
+
+.menu-list a.menu-stage.agent-border-default {
+  border-left: 3px solid #48c78e;
+  background-color: #f5ffff;
+}
+
 .menu-list a.menu-stage > i {
   font-size: 1.4rem;
   margin-top: 3px;

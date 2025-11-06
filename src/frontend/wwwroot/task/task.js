@@ -350,9 +350,17 @@
                                     </div>
                                 `;
 
+              // Determine border color based on agent type
+              let agentBorderClass = "";
+              if (stage.agent && stage.agent.toLowerCase() == "risk_assessment_agent") {
+                agentBorderClass = "agent-border-risk";
+              } else {
+                agentBorderClass = "agent-border-default";
+              }
+
               stageItem.innerHTML = `
                                 <a class="menu-stage ${stage.status
-                } ${stageRejected}" data-id="${stage.id
+                } ${stageRejected} ${agentBorderClass}" data-id="${stage.id
                 }" title="Status: ${stage.status}, Id: ${stage.id}">
                                     ${stageStatusIcon}
                                     <span>${taskStageCount + 1}. ${stage.action
@@ -427,9 +435,7 @@
         .then((response) => response.json())
         .then((data) => {
           const toAgentName = (str) => {
-            console.log("toAgentName", str);
             let new_name = str.replace(/_/g, " ");
-            console.log("toAgentName", new_name);
             return new_name;
           };
 
