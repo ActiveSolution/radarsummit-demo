@@ -574,6 +574,8 @@ class PlannerAgent(BaseAgent):
 
             When generating the action in the plan, frame the action as an instruction you are passing to the agent to execute. It should be a short, single sentence. Include the function to use. For example, "Set up an Office 365 Account for Jessica Smith. Function: set_up_office_365_account"
 
+            If there are functions that perform operations that are required for the desired user task, you MUST include them in the plan steps. 
+
             Ensure the summary of the plan and the overall steps is less than 50 words.
 
             Identify any additional information that might be required to complete the task. Include this information in the plan in the human_clarification_request field of the plan. If it is not required, leave it as null.

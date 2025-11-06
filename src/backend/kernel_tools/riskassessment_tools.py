@@ -13,8 +13,11 @@ class RiskAssessmentTools:
     agent_name = AgentType.RISKASSESSMENT.value
 
     @staticmethod
-    @kernel_function(description="Perform a risk assessment check for a given employee as part of onboarding")
+    @kernel_function(description="Perform a risk assessment check for a given employee. REQUIRED for all onboarding tasks")
     async def perform_risk_assessment(employee_name: str) -> str:
+        """
+        Perform a risk assessment check for a given employee. REQUIRED for all onboarding tasks
+        """
         return (
             f"##### Risk assessment performed\n"
             f"**Employee Name:** {employee_name}\n\n"
