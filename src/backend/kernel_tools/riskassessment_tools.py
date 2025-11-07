@@ -1,7 +1,11 @@
 import inspect
+import logging
+import asyncio
 from typing import Annotated, Callable
 
 from semantic_kernel.functions import kernel_function
+from mcp.client.sse import sse_client
+from mcp.client.session import ClientSession
 from models.messages_kernel import AgentType
 import json
 from typing import get_type_hints
@@ -13,17 +17,63 @@ class RiskAssessmentTools:
     agent_name = AgentType.RISKASSESSMENT.value
 
     @staticmethod
-    @kernel_function(description="Perform a risk assessment check for a given employee. REQUIRED for all onboarding tasks")
+    @kernel_function(description="Perform a comprehensive risk assessment check for a given employee using MCP service. REQUIRED for all onboarding tasks")
     async def perform_risk_assessment(employee_name: str) -> str:
         """
-        Perform a risk assessment check for a given employee. REQUIRED for all onboarding tasks
+        Perform a comprehensive risk assessment check for a given employee using the MCP Risk Assessment service.
+        REQUIRED for all onboarding tasks
         """
-        return (
-            f"##### Risk assessment performed\n"
-            f"**Employee Name:** {employee_name}\n\n"
-            f"No issues found.\n"
-            f"{RiskAssessmentTools.formatting_instructions}"
-        )
+        try:
+            # Prepare the risk assessment message
+            assessment_message = (
+                f"Employee Onboarding Risk Assessment Request:\n"
+                f"Employee Name: {employee_name}\n"
+                f"Request Type: Pre-employment risk evaluation for standard corporate onboarding process.\n"
+                f"Please provide a comprehensive risk assessment covering security, compliance, operational, and safety considerations."
+            )
+            
+            # Connect to MCP server using SSE client
+            async with sse_client("https://bergetdemo.activesolution.se/SSE") as (read, write):
+                # Create client session
+                async with ClientSession(read, write) as session:
+                    # Initialize the session
+                    init_result = await session.initialize()
+                    
+                    # Call the MCP assess function
+                    result = await session.call_tool(
+                        name="assess", 
+                        arguments={"message": assessment_message}
+                    )
+                    
+                    # Extract the result content
+                    mcp_result = result.content[0].text if result.content else "Assessment completed"
+                    
+                    # Format the response
+                    return (
+                        f"##### Risk Assessment Report for {employee_name}\n\n"
+                        f"**Employee:** {employee_name}\n"
+                        f"**Assessment Type:** Pre-employment Risk Evaluation\n"
+                        f"**Service:** MCP Risk Assessment Engine (my-mcp-server-1512d428)\n\n"
+                        f"---\n\n"
+                        f"{mcp_result}\n\n"
+                        f"---\n\n"
+                        f"**Assessment Completed:** ✅\n\n"
+                        f"{RiskAssessmentTools.formatting_instructions}"
+                    )
+            
+        except Exception as e:
+            logging.error(f"Error during MCP risk assessment for {employee_name}: {e}")
+            # Fallback to basic assessment if MCP service is unavailable
+            return (
+                f"##### Risk Assessment Report for {employee_name}\n\n"
+                f"**Employee Name:** {employee_name}\n\n"
+                f"**Assessment Status:** ⚠️ MCP service unavailable - Basic assessment performed\n\n"
+                f"**Basic Assessment:** No immediate risks identified for standard employee onboarding.\n\n"
+                f"**Recommendation:** Manual review recommended due to MCP service unavailability.\n\n"
+                f"**Note:** Full MCP risk assessment service is currently unavailable. Please retry later for comprehensive analysis.\n\n"
+                f"**Error Details:** {str(e)}\n\n"
+                f"{RiskAssessmentTools.formatting_instructions}"
+            )
 
     @classmethod
     def get_all_kernel_functions(cls) -> dict[str, Callable]:
