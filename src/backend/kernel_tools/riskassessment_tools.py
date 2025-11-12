@@ -53,7 +53,7 @@ class RiskAssessmentTools:
                         f"##### Risk Assessment Report for {employee_name}\n\n"
                         f"**Employee:** {employee_name}\n"
                         f"**Assessment Type:** Pre-employment Risk Evaluation\n"
-                        f"**Service:** MCP Risk Assessment Engine (my-mcp-server-1512d428)\n\n"
+                        f"**Service:** MCP Risk Assessment Engine (Private Cloud)\n\n"
                         f"---\n\n"
                         f"{mcp_result}\n\n"
                         f"---\n\n"
